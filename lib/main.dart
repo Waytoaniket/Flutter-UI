@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:housy/Screens/HomePage/home_page.dart';
 import 'package:housy/Screens/Drawer/drawer.dart';
 import 'package:housy/Screens/NavigationPage/navigation.dart';
+import 'package:housy/Screens/Registration/registration_page.dart';
 import 'package:sizer/sizer.dart';
 
 void main() {
@@ -24,12 +25,11 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            initialRoute: NavigationPage.id,
+            initialRoute: RegistrationPage.id,
             routes: {
               HomePage.id: (context) => HomePage(),
               NavigationPage.id: (context) => NavigationPage(),
-
-
+              RegistrationPage.id: (context) => RegistrationPage(),
             },
           ),
         );

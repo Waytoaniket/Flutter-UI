@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:housy/Screens/HomePage/home_page.dart';
 import 'package:housy/Screens/Drawer/drawer.dart';
+import 'package:housy/Services/api_provider.dart';
 import 'package:sizer/sizer.dart';
 
 class NavigationPage extends StatefulWidget {
@@ -26,6 +27,13 @@ class _NavigationPageState extends State<NavigationPage>
       vsync: this,
       duration: Duration(milliseconds: 300),
     );
+    Map<String, String> data = Map<String, String>();
+    data['category'] = 'movies';
+    data['language'] = 'hindi';
+    data['genre'] = 'all';
+    data['sort'] = 'voting';
+
+    ApiProvider().getCompanyInfo(data);
   }
 
   _toggleAnimation() {
