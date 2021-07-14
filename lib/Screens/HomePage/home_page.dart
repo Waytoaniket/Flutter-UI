@@ -78,10 +78,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(17.w),
-                                child: Image.network(
-                                  "https://picsum.photos/250?image=9",
+                                child: Image.asset(
+                                  'assets/images/noprofile.png',
                                   height: 17.w,
                                   width: 17.w,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                               Container(

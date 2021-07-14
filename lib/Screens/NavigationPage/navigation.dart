@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:housy/Screens/ContactInfo/contact_info.dart';
 import 'package:housy/Screens/HomePage/home_page.dart';
 import 'package:housy/Screens/Drawer/drawer.dart';
-import 'package:housy/Services/api_provider.dart';
 import 'package:sizer/sizer.dart';
 
 class NavigationPage extends StatefulWidget {
@@ -18,6 +18,8 @@ class _NavigationPageState extends State<NavigationPage>
     with TickerProviderStateMixin {
   // final GlobalKey<Scaffold> _scaffold = GlobalKey();
   AnimationController? _animationController;
+  Widget? screenView;
+  DrawerIndex? drawerIndex;
 
   @override
   void initState() {
@@ -27,13 +29,11 @@ class _NavigationPageState extends State<NavigationPage>
       vsync: this,
       duration: Duration(milliseconds: 300),
     );
-    Map<String, String> data = Map<String, String>();
-    data['category'] = 'movies';
-    data['language'] = 'hindi';
-    data['genre'] = 'all';
-    data['sort'] = 'voting';
-
-    ApiProvider().getCompanyInfo(data);
+    drawerIndex = DrawerIndex.HOME;
+    screenView = HomePage(
+      callback: _toggleAnimation,
+      animationController: _animationController,
+    );
   }
 
   _toggleAnimation() {
@@ -57,25 +57,53 @@ class _NavigationPageState extends State<NavigationPage>
         double scale = 1 - (_animationController!.value * 0.3);
         return Stack(
           children: [
-            DrawerData(),
+            DrawerData(
+              callback: changeIndex,
+              drawerIndex: drawerIndex,
+            ),
             Transform(
               transform: Matrix4.identity()
                 ..translate(slide)
                 ..scale(scale),
               alignment: Alignment.center,
               child: ClipRRect(
-                borderRadius: _animationController!.isCompleted
-                    ? BorderRadius.circular(10.w)
-                    : BorderRadius.zero,
-                child: HomePage(
-                  callback: _toggleAnimation,
-                  animationController: _animationController,
-                ),
-              ),
+                  borderRadius: _animationController!.isCompleted
+                      ? BorderRadius.circular(10.w)
+                      : BorderRadius.zero,
+                  child: screenView),
             ),
           ],
         );
       },
     );
   }
+
+  void changeIndex(DrawerIndex drawerIndexdata) {
+    _toggleAnimation();
+    if (drawerIndex != drawerIndexdata) {
+      drawerIndex = drawerIndexdata;
+      if (drawerIndex == DrawerIndex.HOME) {
+        setState(() {
+          screenView = HomePage(
+            callback: _toggleAnimation,
+            animationController: _animationController,
+          );
+        });
+      } else if (drawerIndex == DrawerIndex.Info) {
+        setState(() {
+          screenView = ContactInfo(
+            callback: _toggleAnimation,
+            animationController: _animationController,
+          );
+        });
+      } else {
+        //do in your way......
+      }
+    }
+  }
+}
+
+enum DrawerIndex {
+  HOME,
+  Info,
 }

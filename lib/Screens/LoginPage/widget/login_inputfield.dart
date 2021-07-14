@@ -14,34 +14,16 @@ final passwordValidator = MultiValidator([
       errorText: 'passwords must have at least one special character')
 ]);
 
-final requiredValidator =
-    RequiredValidator(errorText: 'This field is required');
-
-final ageValidator = MultiValidator([
-  RequiredValidator(errorText: 'Age is required'),
-  RangeValidator(errorText: 'Put valid age', min: 18, max: 150)
-]);
-final mobileNumValidator = MultiValidator([
-  RequiredValidator(errorText: 'Mobile Number is required'),
-  PatternValidator(r'^[6-9]\d{9}$', errorText: 'Enter valid phone Number')
-]);
 
 Widget getInputField(
     size,
     context,
-    TextEditingController _firstName,
-    TextEditingController _lastName,
+ 
     TextEditingController _email,
     TextEditingController _password,
-    TextEditingController _confirmPassword,
-    TextEditingController _mobileNumber,
-    String professionType,
     bool passwordNotVisible,
-    bool confirmedPasswordNotVisible,
-    bool searchIndicator,
     Function changePasswordVisibility,
-    Function changeConfirmedPasswordVisibility,
-    Function changeDropDownValue) {
+    ) {
   return Padding(
     padding: EdgeInsets.only(left: size.width / 12, right: size.width / 12),
     child: Column(
@@ -50,29 +32,15 @@ Widget getInputField(
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.only(left: 10.0, top: 5.h),
           child: Text(
-            "SIGN UP CREDENTIALS",
+            "LOGIN CREDENTIALS",
             style: TextStyle(
                 fontSize: 14.0,
                 color: Colors.pink,
                 fontWeight: FontWeight.w500),
           ),
         ),
-        Container(
-          width: size.width,
-          padding: EdgeInsets.only(top: size.width / 30),
-          alignment: Alignment.center,
-          child: field(size, context, "First Name", Icons.person, _firstName,
-              TextInputType.text,
-              requiredValidator: requiredValidator),
-        ),
-        Container(
-          width: size.width,
-          padding: const EdgeInsets.only(top: 6),
-          alignment: Alignment.center,
-          child: field(size, context, "Last Name", Icons.person, _lastName,
-              TextInputType.text,
-              requiredValidator: requiredValidator),
-        ),
+        
+       
         Container(
           width: size.width,
           padding: const EdgeInsets.only(top: 6),
@@ -97,43 +65,6 @@ Widget getInputField(
               changePasswordVisibility,
               passwordValidator),
         ),
-        Container(
-          width: size.width,
-          padding: const EdgeInsets.only(top: 6),
-          alignment: Alignment.center,
-          child: confirmPasswordField(
-            size,
-            context,
-            "Confirm Password",
-            Icons.lock,
-            confirmedPasswordNotVisible
-                ? Icons.visibility_off
-                : Icons.visibility,
-            _confirmPassword,
-            _password,
-            TextInputType.visiblePassword,
-            confirmedPasswordNotVisible,
-            changeConfirmedPasswordVisibility,
-          ),
-        ),
-        Container(
-          width: size.width,
-          padding: const EdgeInsets.only(top: 6),
-          alignment: Alignment.center,
-          child: field(
-            size,
-            context,
-            "Mobile Number",
-            Icons.phone,
-            _mobileNumber,
-            TextInputType.number,
-            multiValidator: mobileNumValidator,
-          ),
-        ),
-        SizedBox(
-          height: 1.5.h,
-        ),
-        getDropDownInput(context, professionType, changeDropDownValue),
       ],
     ),
   );
@@ -275,52 +206,6 @@ Widget passwordIconDecoration(icon, Function changeVisibility) {
       icon,
       size: 28,
       color: Colors.amber,
-    ),
-  );
-}
-
-Widget getDropDownInput(context, String professionType, Function changeValue) {
-  final List<String> _data = [
-    'App Developer',
-    'Web Developer',
-    'Backend Developer',
-    'Forntend Developer',
-    'Fullstack Developer'
-  ];
-  final node = FocusScope.of(context);
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: 4.w),
-    height: 6.5.h,
-    width: double.infinity,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(20.w),
-      color: Colors.white,
-    ),
-    child: DropdownButtonHideUnderline(
-      child: DropdownButton<String>(
-        icon: Icon(
-          Icons.keyboard_arrow_down_sharp,
-          color: Colors.amber,
-          size: 10.w,
-        ),
-        items: _data.map((String val) {
-          return DropdownMenuItem<String>(
-            value: val,
-            child: Text(
-              val,
-              style: TextStyle(color: Colors.orange, fontSize: 18),
-            ),
-          );
-        }).toList(),
-        hint: Text(
-          professionType,
-          style: TextStyle(color: Colors.orange, fontSize: 18),
-        ),
-        onChanged: (String? val) {
-          node.nextFocus();
-          changeValue(val);
-        },
-      ),
     ),
   );
 }

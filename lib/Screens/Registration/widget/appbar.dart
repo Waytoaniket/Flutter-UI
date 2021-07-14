@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Widget appBar(context) {
+Widget registrationAppBar(context) {
   return SizedBox(
     height: AppBar().preferredSize.height,
     child: Padding(

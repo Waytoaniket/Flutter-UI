@@ -17,15 +17,12 @@ class RegistrationPage extends StatefulWidget {
 class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController _firstName = TextEditingController();
   final TextEditingController _lastName = TextEditingController();
-  final TextEditingController _userName = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _confirmPassword = TextEditingController();
-  final TextEditingController _age = TextEditingController();
-  final TextEditingController _gender = TextEditingController();
   final TextEditingController _mobileNumber = TextEditingController();
-  final TextEditingController _city = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  String professionType = 'Select Your Profession';
 
   bool passwordNotVisible = true;
   bool confirmedPasswordNotVisible = true;
@@ -54,23 +51,23 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    appBar(context),
+                    registrationAppBar(context),
                     getInputField(
-                      size,
-                      context,
-                      _firstName,
-                      _lastName,
-                      _email,
-                      _password,
-                      _confirmPassword,
-                      _mobileNumber,
-                      _city,
-                      passwordNotVisible,
-                      confirmedPasswordNotVisible,
-                      userSearchIndicator,
-                      changePasswordVisibility,
-                      changeConfirmedPasswordVisibility,
-                    ),
+                        size,
+                        context,
+                        _firstName,
+                        _lastName,
+                        _email,
+                        _password,
+                        _confirmPassword,
+                        _mobileNumber,
+                        professionType,
+                        passwordNotVisible,
+                        confirmedPasswordNotVisible,
+                        userSearchIndicator,
+                        changePasswordVisibility,
+                        changeConfirmedPasswordVisibility,
+                        updateDropDownValue),
                     SizedBox(
                       height: size.width / 8,
                     ),
@@ -78,15 +75,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       context,
                       size,
                       _formKey,
-                      _userName,
                       _firstName,
                       _lastName,
                       _email,
                       _password,
-                      _age,
-                      _gender,
                       _mobileNumber,
-                      _city,
+                      professionType,
                       updateIndicator,
                     ),
                     SizedBox(
@@ -117,6 +111,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
   void changeConfirmedPasswordVisibility() {
     setState(() {
       confirmedPasswordNotVisible = !confirmedPasswordNotVisible;
+    });
+  }
+
+  void updateDropDownValue(String val) {
+    setState(() {
+      professionType = val;
     });
   }
 }

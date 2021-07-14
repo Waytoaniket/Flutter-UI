@@ -2,10 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:housy/Screens/Drawer/widgets/drawer_list_tile.dart';
+import 'package:housy/Screens/NavigationPage/navigation.dart';
 import 'package:sizer/sizer.dart';
 
 class DrawerData extends StatelessWidget {
-  const DrawerData({Key? key}) : super(key: key);
+  final Function? callback;
+  final DrawerIndex? drawerIndex;
+  const DrawerData({Key? key, this.callback, this.drawerIndex})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,16 +20,17 @@ class DrawerData extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: 30.h,
+              height: 28.h,
               // color: Colors.amber,
               child: Row(
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(15.w),
-                    child: Image.network(
-                      "https://picsum.photos/250?image=9",
+                    child: Image.asset(
+                      'assets/images/noprofile.png',
                       height: 15.w,
                       width: 15.w,
+                      fit: BoxFit.cover,
                     ),
                   ),
                   SizedBox(
@@ -44,34 +49,52 @@ class DrawerData extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                  drawerListTile("Payments", Icons.payment),
-                  SizedBox(
-                    height: 8.w,
+                  InkWell(
+                    onTap: () {
+                      callback!(DrawerIndex.HOME);
+                    },
+                    child: drawerListTile(
+                      "Home",
+                      Icons.home,
+                      DrawerIndex.HOME == drawerIndex,
+                    ),
                   ),
-                  drawerListTile("Discounts", Icons.favorite),
                   SizedBox(
-                    height: 8.w,
+                    height: 4.w,
                   ),
-                  drawerListTile("Notifications", Icons.notifications),
-                  SizedBox(
-                    height: 8.w,
+                  InkWell(
+                    onTap: () {
+                      callback!(DrawerIndex.Info);
+                    },
+                    child: drawerListTile(
+                      "Company Info",
+                      Icons.info,
+                      DrawerIndex.Info == drawerIndex,
+                    ),
                   ),
-                  drawerListTile("Orders", Icons.list),
                   SizedBox(
-                    height: 8.w,
+                    height: 4.w,
                   ),
-                  drawerListTile("Help", Icons.help),
+                  drawerListTile("Notifications", Icons.notifications, false),
                   SizedBox(
-                    height: 8.w,
+                    height: 4.w,
+                  ),
+                  drawerListTile("Orders", Icons.list, false),
+                  SizedBox(
+                    height: 4.w,
+                  ),
+                  drawerListTile("Help", Icons.help, false),
+                  SizedBox(
+                    height: 4.w,
                   ),
                 ],
               ),
             ),
-            drawerListTile("Settings", Icons.settings),
+            drawerListTile("Settings", Icons.settings, false),
             SizedBox(
               height: 4.w,
             ),
-            drawerListTile("Support", Icons.support_agent),
+            drawerListTile("Support", Icons.support_agent, false),
             SizedBox(
               height: 4.w,
             ),

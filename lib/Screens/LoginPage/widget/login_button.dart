@@ -1,18 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:housy/Screens/NavigationPage/navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Widget registrationButton(
+Widget loginButton(
   context,
   Size size,
   _formKey,
-  TextEditingController _firstName,
-  TextEditingController _lastName,
   TextEditingController _email,
   TextEditingController _password,
-  TextEditingController _mobileNumber,
-  String profession,
   Function updateIndicator,
 ) {
   return InkWell(
@@ -23,14 +20,20 @@ Widget registrationButton(
       if (_formKey.currentState!.validate()) {
         updateIndicator();
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('firstName', _firstName.text);
-        await prefs.setString('lastName', _lastName.text);
-        await prefs.setString('email', _email.text);
-        await prefs.setString('password', _password.text);
-        await prefs.setString('mobileNumbaer', _mobileNumber.text);
-        await prefs.setString('profession', profession);
+        String? email = prefs.getString('email');
+        String? password = prefs.getString('password');
+        if (_email.text == email && _password.text == password) {
+          Navigator.pushReplacementNamed(context, NavigationPage.id);
+        }
+        else{
+          updateIndicator();
+          Fluttertoast.showToast(
+                msg: 'Invaild Credentials',
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
+        }
         print("done");
-        Navigator.pushReplacementNamed(context, NavigationPage.id);
       }
     },
     child: Container(
@@ -49,7 +52,7 @@ Widget registrationButton(
       ),
       alignment: Alignment.center,
       child: Text(
-        "Sign Up",
+        "Sign In",
         style: TextStyle(
           color: Colors.white,
           fontSize: 18,

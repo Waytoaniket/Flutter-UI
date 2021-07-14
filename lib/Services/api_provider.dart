@@ -5,7 +5,7 @@ import 'package:housy/Utils/Constants.dart';
 import 'package:http/http.dart';
 
 class ApiProvider {
-  Future getCompanyInfo(Map<String, String> companInfoHash) async {
+  Future<CompanyInfoModel?> getCompanyInfo(Map<String, String> companInfoHash) async {
     Map<String, String> headers = {
       'Content-Type': 'application/json',
     };
