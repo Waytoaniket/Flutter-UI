@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:housy/Models/CompanyInfo/company_info.dart';
 import 'package:housy/Screens/ContactInfo/widgets/appbar.dart';
-import 'package:housy/Screens/ContactInfo/widgets/information_caed.dart';
+import 'package:housy/Screens/ContactInfo/widgets/information_card.dart';
 import 'package:housy/Services/api_provider.dart';
 
 class ContactInfo extends StatefulWidget {

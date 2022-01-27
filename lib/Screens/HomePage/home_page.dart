@@ -30,10 +30,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       vsync: this,
       duration: Duration(milliseconds: 800),
     );
-    _textAnimationController!.forward();
+    // _textAnimationController!.forward();
     _scrollController.addListener(() {
       _textAnimationController!.animateTo(10 - _scrollController.offset);
     });
+  }
+
+  Future<bool> getData() async {
+    await Future<dynamic>.delayed(const Duration(seconds: 1));
+    return true;
   }
 
   @override
@@ -94,48 +99,62 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             ],
                           ),
                           Expanded(
-                            child: AnimatedBuilder(
-                              animation: _textAnimationController!,
-                              builder: (context, child) {
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Transform(
-                                      alignment: Alignment.center,
-                                      transform: Matrix4.identity()
-                                        ..scale(
-                                          1 +
-                                              (_textAnimationController!.value *
-                                                  0.3),
+                            child: FutureBuilder<bool>(
+                              future: getData(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<bool> snapshot) {
+                                if (!snapshot.hasData)
+                                  return Container();
+                                else
+                                  _textAnimationController!.forward();
+                                return AnimatedBuilder(
+                                  animation: _textAnimationController!,
+                                  builder: (context, child) {
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Transform(
+                                          alignment: Alignment.center,
+                                          transform: Matrix4.identity()
+                                            ..scale(
+                                              1 +
+                                                  (_textAnimationController!
+                                                          .value *
+                                                      0.3),
+                                            ),
+                                          child: Text(
+                                            "Aniket Gupta",
+                                            style: GoogleFonts.aBeeZee(
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.bold),
+                                          ),
                                         ),
-                                      child: Text(
-                                        "Aniket Gupta",
-                                        style: GoogleFonts.aBeeZee(
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 2.w,
-                                    ),
-                                    Transform(
-                                      alignment: Alignment.center,
-                                      transform: Matrix4.identity()
-                                        ..scale(
-                                          1 +
-                                              (_textAnimationController!.value *
-                                                  0.3),
+                                        SizedBox(
+                                          height: 2.w,
                                         ),
-                                      child: Text(
-                                        "App Developer",
-                                        style: GoogleFonts.aBeeZee(
-                                          color: Colors.grey[800],
-                                          fontSize: 12.sp,
+                                        Transform(
+                                          alignment: Alignment.center,
+                                          transform: Matrix4.identity()
+                                            ..scale(
+                                              1 +
+                                                  (_textAnimationController!
+                                                          .value *
+                                                      0.3),
+                                            ),
+                                          child: Text(
+                                            "App Developer",
+                                            style: GoogleFonts.aBeeZee(
+                                              color: Colors.grey[800],
+                                              fontSize: 12.sp,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ],
+                                      ],
+                                    );
+                                  },
                                 );
                               },
                             ),
